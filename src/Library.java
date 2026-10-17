@@ -25,20 +25,64 @@ public class Library {
     //2.展示书本信息
     public void showAllBooks(){
         for(Book book: books){
+            System.out.println("Type:"+book.getBookType());
             book.showInfo();}}
 
     //3.搜索图书名字
-    public String searchBook(String title){
+    public Book searchBook(String title){
         //3.1找到了
         for (Book book: books){
             if (book.getTitle().equals(title)){
-                return book.getTitle();
-                //
-            }}
-                //如果写break，那是没用的，因为return已经结束方法了
-        //3.2没找到的保底情况
+                return book;}
+        }//3.2没找到的保底情况
         return null;
     }
 
 
-}
+    //4.library 管理书籍-借书
+    public void borrowBook(String title){
+        Book book=searchBook(title);
+        if (book==null) {
+            System.out.println("没有找到这本书");
+        }else{
+            if (book instanceof Borrowable) {
+                ((Borrowable) book).borrow();
+            } else{
+                    System.out.println("这本书不支持当前借阅流程");
+                }
+            }
+        }
+/*
+searchBook(title)
+      │
+      ▼
+找到了书吗？
+  ├── 否 → 提示没有找到
+  └── 是
+       │
+       ▼
+   instanceof Borrowable
+       │
+       ├── 否 → 提示不支持借阅
+       └── 是 → 转成 Borrowable 引用，调用 borrow()
+ */
+
+
+    //5.library 管理书籍-还书
+    public void returnBook(String title){
+        Book book=searchBook(title);
+        if (book==null){
+            System.out.println("没有找到");
+        }else {
+            if (book instanceof Borrowable){
+                ((Borrowable) book).returnBook();
+            }else {
+                System.out.println("找到了，但不支持当前借阅流程");
+            }
+        }
+    }
+
+
+
+    }
+

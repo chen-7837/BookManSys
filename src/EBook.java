@@ -11,4 +11,7 @@ extends Book
         super.showInfo();
         System.out.println("fileSize:"+fileSize+"MB");}
 
+    @Override
+    public String getBookType( ){
+        return "EBook";}
 }
